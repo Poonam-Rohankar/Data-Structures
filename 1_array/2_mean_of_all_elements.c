@@ -1,3 +1,5 @@
+// 2. Write a program to find the mean of n numbers using arrays.
+
 #include <stdio.h>
 
 int main()

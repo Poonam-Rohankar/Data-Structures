@@ -1,3 +1,4 @@
+// 1. Write a program to read and display n numbers using an array.
 #include <stdio.h>
 
 int main()
