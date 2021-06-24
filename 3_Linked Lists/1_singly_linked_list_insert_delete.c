@@ -33,6 +33,13 @@ struct Node *deleteEnd(struct Node *); // delete last Node
 
 struct Node *deleteNode(struct Node *); // delete node by its value
 
+struct Node *deleteBefore(struct Node *); // delete node before any node
+
+struct Node *deleteAfter(struct Node *); // delete node after any node
+
+struct Node *deleteAll(struct Node *); // delete all nodes
+
+struct Node *sort_LL(struct Node *); // sorting
 // Main
 int main()
 {
@@ -50,7 +57,12 @@ int main()
         printf("\n6. Insert Node after a given node");
         printf("\n7. Delete Node from beginning");
         printf("\n8. Delete Node from end");
-        printf("\n9. Delete node by value");
+        printf("\n9. Delete node");
+        printf("\n10. Delete node before node");
+        printf("\n11. Delete node after node");
+        printf("\n12. Delete all nodes");
+        printf("\n13. Sort Linked List");
+
         // -------------------------
         printf("\nEnter your choice : ");
         scanf("%d", &choice);
@@ -104,6 +116,26 @@ int main()
         case 9:
         {
             head = deleteNode(head);
+            break;
+        }
+        case 10:
+        {
+            head = deleteBefore(head);
+            break;
+        }
+        case 11:
+        {
+            head = deleteAfter(head);
+            break;
+        }
+        case 12:
+        {
+            head = deleteAll(head);
+            break;
+        }
+        case 13:
+        {
+            head = sort_LL(head);
             break;
         }
         default:
@@ -249,7 +281,7 @@ struct Node *insertAfter(struct Node *head)
     struct Node *new_node, *ptr = head;
     int num, val;
 
-    printf("\Enter Data : ");
+    printf("\nEnter Data : ");
     scanf("%d", &num);
 
     printf("\n Enter the value after which the data has to be inserted : ");
@@ -326,4 +358,118 @@ struct Node *deleteNode(struct Node *head)
 
         return head;
     }
+}
+
+struct Node *deleteBefore(struct Node *head)
+{
+    struct Node *previousPrevious = head, *previous = head->next, *ptr = head->next->next;
+
+    int val;
+    printf("\n Enter the value of the node before which the node has to be deleted : ");
+    scanf("%d", &val);
+
+    if (previousPrevious->data == val)
+    {
+        printf("\nNo Node exists before this Node");
+        return head;
+    }
+    else
+    {
+        if (previous->data == val) // delete first node
+        {
+            head = deleteBeginning(head);
+            return head;
+        }
+        else
+        {
+            while (ptr->data != val)
+            {
+                previousPrevious = previousPrevious->next;
+                previous = previous->next;
+                ptr = ptr->next;
+            }
+
+            printf("\nDeleted %d", previous->data);
+            previousPrevious->next = previous->next;
+            free(previous);
+
+            return head;
+        }
+    }
+}
+
+struct Node *deleteAfter(struct Node *head)
+{
+    struct Node *ptr = head, *next = head->next;
+    int val;
+    printf("\n Enter the value after which the node has to deleted : ");
+    scanf("%d", &val);
+
+    if (ptr->data == val && ptr->next != NULL)
+    {
+        ptr->next = NULL;
+        printf("\nDeleted : %d", next->data);
+        free(next);
+        return head;
+    }
+    else
+    {
+        while (ptr->data != val)
+        {
+            ptr = ptr->next;
+            next = next->next;
+        }
+
+        if (next != NULL)
+        {
+            ptr->next = next->next;
+            printf("\nDeleted : %d", next->data);
+            free(next);
+        }
+        else
+        {
+            printf("\nNo next node exists after this node !");
+        }
+        return head;
+    }
+}
+
+struct Node *deleteAll(struct Node *head)
+{
+    struct Node *ptr = head;
+
+    while (ptr != NULL)
+    {
+        printf("\nDeleting : %d", ptr->data);
+        head = deleteBeginning(ptr);
+        ptr = head;
+    }
+
+    return head;
+}
+
+struct Node *sort_LL(struct Node *head)
+{
+    struct Node *ptr = head, *next;
+    int temp;
+
+    while (ptr->next != NULL)
+    {
+        next = ptr->next;
+        while (next != NULL)
+        {
+            if (next->data < ptr->data)
+            {
+                // perform swapping
+                temp = ptr->data;
+                ptr->data = next->data;
+                next->data = temp;
+            }
+            next = next->next;
+        }
+
+        ptr = ptr->next;
+    }
+
+    return head;
 }
