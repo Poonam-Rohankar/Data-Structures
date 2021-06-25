@@ -1,12 +1,11 @@
 /*
-! Write a program to create a linked list and perform insertions and deletions of all cases.
-! Write functions to sort and finally delete the entire list at once. 
+* Write a program to create a linked list and perform insertions and deletions of all cases.
+* Write functions to sort and finally delete the entire list at once. 
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-// Node
 struct Node
 {
     int data;
