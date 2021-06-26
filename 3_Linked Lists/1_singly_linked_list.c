@@ -39,6 +39,13 @@ struct Node *deleteAfter(struct Node *); // delete node after any node
 struct Node *deleteAll(struct Node *); // delete all nodes
 
 struct Node *sort_LL(struct Node *); // sorting
+
+struct Node *removeDuplicates(struct Node *); // remove duplicate elements
+
+struct Node *reverse_ll(struct Node *); // reverse all node
+
+struct Node *linear_search(struct Node *); // linear search
+
 // Main
 int main()
 {
@@ -61,6 +68,9 @@ int main()
         printf("\n11. Delete node after node");
         printf("\n12. Delete all nodes");
         printf("\n13. Sort Linked List");
+        printf("\n14. Remove duplicates");
+        printf("\n15. Reverse Linked List");
+        printf("\n16. Search Node");
 
         // -------------------------
         printf("\nEnter your choice : ");
@@ -135,6 +145,21 @@ int main()
         case 13:
         {
             head = sort_LL(head);
+            break;
+        }
+        case 14:
+        {
+            head = removeDuplicates(head);
+            break;
+        }
+        case 15:
+        {
+            head = reverse_ll(head);
+            break;
+        }
+        case 16:
+        {
+            head = linear_search(head);
             break;
         }
         default:
@@ -465,6 +490,67 @@ struct Node *sort_LL(struct Node *head)
                 next->data = temp;
             }
             next = next->next;
+        }
+
+        ptr = ptr->next;
+    }
+
+    return head;
+}
+
+struct Node *removeDuplicates(struct Node *head)
+{
+    struct Node *ptr = head, *next = ptr->next;
+
+    while (next != NULL)
+    {
+        if (next->data != ptr->data)
+        {
+            next = next->next;
+            ptr = ptr->next;
+        }
+        else
+        {
+            ptr->next = next->next;
+            free(next); // remove second duplicated node
+            next = ptr->next;
+        }
+    }
+
+    return head;
+}
+
+struct Node *reverse_ll(struct Node *head)
+{
+    struct Node *p = head, *q, *r;
+    q = r = NULL;
+
+    while (p != NULL)
+    {
+        r = q;
+        q = p;
+        p = p->next;
+
+        q->next = r; // point q on previous node by reversing links
+    }
+    head = q; //making last node as first node
+
+    return head;
+}
+
+struct Node *linear_search(struct Node *head)
+{
+    struct Node *ptr = head;
+    int key;
+    printf("\nEnter key to search : ");
+    scanf("%d", &key);
+
+    printf("\nSearching for %d", key);
+    while (ptr->next != NULL)
+    {
+        if (ptr->data == key)
+        {
+            printf("\nElement found at %d", ptr);
         }
 
         ptr = ptr->next;
