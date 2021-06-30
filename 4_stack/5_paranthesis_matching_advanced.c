@@ -1,99 +1,69 @@
 // ! Write a program to check whether all the opening paanthesis are having closing closing paranthesis.
 
 #include <stdio.h>
-#include <stdlib.h>
-struct Node
+#include <string.h>
+#define MAX 10
+int top = -1;
+int stk[MAX];
+void push(char);
+char pop();
+
+void main()
 {
-    char data;
-    struct Node *next;
-} *top = NULL;
+    char exp[MAX], temp;
+    int i, flag = 1;
 
+    printf("Enter an expression : ");
+    gets(exp);
 
-void push(char x)
-{
-    struct Node *t;
-    t = (struct Node *)malloc(sizeof(struct Node));
-
-    if (t == NULL)
-        printf("stack is full\n");
-    else
+    for (i = 0; i < strlen(exp); i++)
     {
-        t->data = x;
-        t->next = top;
-        top = t;
-    }
-}
-
-
-char pop()
-{
-    struct Node *t;
-    char x = -1;
-
-    if (top == NULL)
-        printf("Stack is Empty\n");
-    else
-    {
-        t = top;
-        top = top->next;
-        x = t->data;
-        free(t);
-    }
-    return x;
-}
-void Display()
-{
-    struct Node *p;
-    p = top;
-    while (p != NULL)
-    {
-        printf("%c ", p->data);
-        p = p->next;
-    }
-    printf("\n");
-}
-int isBalanced(char *exp)
-{
-    int i;
-    char x;
-
-    for (i = 0; exp[i] != '\0'; i++)
-    {
-        if (exp[i] == '{' || exp[i] == '(' || exp[i] == '[')
+        if (exp[i] == '(' || exp[i] == '{' || exp[i] == '[')
         {
             push(exp[i]);
         }
-        else if (exp[i] == '}' || exp[i] == ')' || exp[i] == ']')
+        if (exp[i] == ')' || exp[i] == '}' || exp[i] == ']')
         {
-            if (top == NULL)
-            {
-                return 0;
-            }
+            if (top == -1)
+                flag = 0;
             else
             {
-                x = pop();
-
-                if (x == '(' && exp[i] == ')')
-                    return 1;
-                else if (x == '{' && exp[i] == '}')
-                    return 1;
-                else if (x == '[' && exp[i] == ']')
-                    return 1;
-                else
-                    return 0;
+                temp = pop();
+                if (exp[i] == ')' && (temp == '{' || temp == '['))
+                    flag = 0;
+                if (exp[i] == '}' && (temp == '(' || temp == '['))
+                    flag = 0;
+                if (exp[i] == ']' && (temp == '(' || temp == '{'))
+                    flag = 0;
             }
         }
     }
-    if (top == NULL)
-        return 1;
+
+
+    if (top >= 0)
+        flag = 0;
+        
+    if (flag == 1)
+        printf("\n Valid expression");
     else
-        return 0;
+        printf("\n Invalid expression");
 }
 
-int main()
+void push(char c)
 {
-    char exp[] = "{}((a+b)*(c-d))";
+    if (top == (MAX - 1))
+        printf("Stack Overflow\n");
+    else
+    {
+        top = top + 1;
+        stk[top] = c;
+    }
+}
 
-    printf("%d ", isBalanced(exp));
-    return 0;
+char pop()
+{
+    if (top == -1)
+        printf("\n Stack Underflow");
+    else
+        return (stk[top--]);
 }
