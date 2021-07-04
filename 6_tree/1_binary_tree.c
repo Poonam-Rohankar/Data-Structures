@@ -29,7 +29,7 @@ void Treecreate()
             p->lchild = t;
             enqueue(&q, t);
         }
-        
+
         printf("eneter right child of %d ", p->data);
         scanf("%d", &x);
         if (x != -1)
@@ -71,6 +71,49 @@ void Postorder(struct Node *p)
     }
 }
 
+// Level Order transversal
+void levelOrder(struct Node *p)
+{
+    struct Queue q;
+    create(&q, 100);
+
+    printf("%d ", p->data);
+    enqueue(&q, p);
+
+    while (!isEmpty(q))
+    {
+        p = dequeue(&q); // deque address of last node
+
+        if (p->lchild)
+        {
+            printf("%d ", p->lchild->data);
+            enqueue(&q, p->lchild);
+        }
+        if (p->rchild)
+        {
+            printf("%d ", p->rchild->data);
+            enqueue(&q, p->rchild);
+        }
+    }
+}
+
+
+int Height(struct Node *root)
+{
+    int x = 0, y = 0;
+
+    if (root == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        x = Height(root->lchild);
+        y = Height(root->rchild);
+    }
+    return x > y ? x + 1 : y + 1;
+}
+
 int main()
 {
     Treecreate();
@@ -81,5 +124,8 @@ int main()
     printf("\nPost Order : ");
     Postorder(root);
 
+    printf("\nHeight is : %d", Height(root));
+    printf("\nLevel Order : ");
+    levelOrder(root);
     return 0;
 }
