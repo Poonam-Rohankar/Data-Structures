@@ -38,6 +38,7 @@ int partition(int A[], int l, int h)
     return j;
 }
 
+
 void quick_sort(int A[], int l, int h)
 {
     int j;
@@ -56,7 +57,7 @@ int main()
 
     quick_sort(A, 0, n - 1);
 
-    printf("\nAfter Selection Sort : ");
+    printf("\nAfter Quick Sort : ");
     for (int i = 0; i < n; i++)
     {
         printf("\t%d", A[i]);
