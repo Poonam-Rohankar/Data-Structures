@@ -7,7 +7,7 @@ void BFS(int G[][7], int start, int n)
     int visited[7] = {0}; // array of visited nodes
 
     printf("%d ", i);
-    visited[i] = i; // set starting element as visited
+    visited[i] = 1; // set starting element as visited
     enqueue(i);     // enqueue the visited element into queue
 
     while (!isEmpty())
@@ -19,7 +19,7 @@ void BFS(int G[][7], int start, int n)
             if (G[i][j] == 1 && visited[j] == 0) // if node is node visited
             {
                 printf("%d ", j);
-                visited[j] = j;
+                visited[j] = 1;
                 enqueue(j);
             }
         }
